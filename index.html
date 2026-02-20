@@ -19,7 +19,7 @@ body {
   overflow-x: hidden;
 }
 
-/* --- HEADER --- */
+/* HEADER */
 .pinning-header {
   position: fixed;
   top: 0;
@@ -82,7 +82,7 @@ body {
   cursor: pointer;
 }
 
-/* --- BANNER --- */
+/* BANNER */
 .banner {
   height: 80vh;
   display: flex;
@@ -116,33 +116,30 @@ body {
   text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
 }
 
+.btn-play, .btn-info {
+  border-radius: 4px;
+  border: none;
+  padding: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
 .btn-play {
   background-color: #fff;
   color: #000;
-  border: none;
-  padding: 10px 25px;
-  font-size: 18px;
-  font-weight: bold;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-right: 10px;
 }
 
 .btn-info {
-  background: rgba(109, 109, 110, 0.7);
+  background: rgba(109,109,110,0.7);
   color: #fff;
-  border: none;
-  padding: 10px 25px;
-  font-size: 18px;
-  font-weight: bold;
-  border-radius: 4px;
-  cursor: pointer;
 }
 
-/* --- TOP 10 ROW --- */
+/* TOP 10 ROW */
 .row {
   padding: 20px 4%;
-  margin-top: -10px;
+  margin-top: -50px;
   position: relative;
   z-index: 5;
 }
@@ -153,16 +150,13 @@ body {
   margin-bottom: 10px;
 }
 
-.top-10-container {
-  position: relative;
-}
+.top-10-container { position: relative; }
 
 .top-10-scroll {
   display: flex;
   gap: 45px;
   overflow-x: auto;
   padding: 20px 0;
-  scrollbar-width: none;
   scroll-behavior: smooth;
 }
 
@@ -178,9 +172,7 @@ body {
   transition: transform 0.3s;
 }
 
-.card-container:hover {
-  transform: scale(1.05);
-}
+.card-container:hover { transform: scale(1.05); }
 
 .rank-number {
   font-size: 240px;
@@ -218,7 +210,7 @@ body {
   text-transform: uppercase;
 }
 
-/* --- Setas de navegação --- */
+/* NAV ARROWS */
 .arrow-left, .arrow-right {
   position: absolute;
   top: 50%;
@@ -236,7 +228,7 @@ body {
 .arrow-left { left: -20px; }
 .arrow-right { right: -20px; }
 
-/* --- VIDEO BANNER --- */
+/* VIDEO BANNER */
 .banner-video {
   position: absolute;
   inset: 0;
@@ -258,34 +250,26 @@ body {
 
 /* --- MOBILE RESPONSIVO --- */
 @media(max-width:768px){
+  .banner-content { max-width: 90%; }
   .banner-content h1 { font-size: 2rem; }
   .banner-content p { font-size: 14px; }
 
-  .poster-img { width: 100px; height: 150px; margin-left: 50px; }
-  .rank-number { font-size: 120px; left: -10px; bottom: -15px; }
-
-  /* Ajustes para evitar sobreposição */
-  .row {
-    margin-top: 20px; 
-    padding: 10px 4%;
-  }
-
-  .banner-content { max-width: 90%; }
-
   .btn-play, .btn-info {
-    width: 100%;
-    margin-bottom: 10px;
+    width: 48%;
     font-size: 16px;
+    margin: 0 1%;
   }
 
-  .top-10-scroll { gap: 20px; }
+  .row { margin-top: 10px; padding: 10px 4%; }
+  .top-10-scroll { gap: 15px; }
+  .poster-img { width: 100px; height: 150px; margin-left: 50px; }
+  .rank-number { font-size: 90px; left: -10px; bottom: -15px; }
   .row h2 { font-size: 18px; }
 }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="pinning-header" id="header">
   <div class="main-header">
     <a href="#" class="logo">GAMEFLIX</a>
@@ -304,7 +288,6 @@ body {
   </div>
 </header>
 
-<!-- BANNER -->
 <section class="banner" id="main-banner">
   <video class="banner-video" autoplay muted loop playsinline>
     <source src="https://res.cloudinary.com/dlt1gqwnc/video/upload/v1771613996/farcry_z2rivm.mp4" type="video/mp4">
@@ -312,35 +295,32 @@ body {
   <div class="banner-content">
     <h1 id="banner-title">FarCry Primal</h1>
     <p id="banner-desc">Jogo disponivel GRATIS para testar a plataforma</p>
-    <button class="btn-play">▶ DOWNLOAD GRATIS</button>
-    <button class="btn-info">ⓘ Mais informações</button>
+    <div style="display:flex; justify-content:space-between;">
+      <button class="btn-play">▶ DOWNLOAD GRATIS</button>
+      <button class="btn-info">ⓘ Mais informações</button>
+    </div>
   </div>
 </section>
 
-<!-- TOP 10 -->
 <div class="row">
   <h2>MAIS BAIXADOS GAMEFLIX</h2>
   <div class="top-10-container">
     <button class="arrow-left" onclick="scrollLeft()">‹</button>
     <div class="top-10-scroll" id="top10">
-
       <div class="card-container" onclick="updateBanner('Fúria de Titãs 2', 'https://image.tmdb.org/t/p/original/69Uqt7vS68spTb9vYm79B3M94uY.jpg','Um épico cheio de ação e mitologia.')">
         <span class="rank-number">1</span>
         <img src="https://image.tmdb.org/t/p/w500/vG39XN97LNoNqS8nE4qfRCOsYp.jpg" class="poster-img" alt="Filme 1">
       </div>
-
       <div class="card-container" onclick="updateBanner('Salve Geral / Irmandade', 'https://upload.wikimedia.org/wikipedia/pt/e/e7/Red_Dead_Redemption_2.png','Crime e ação em um enredo envolvente.')">
         <span class="rank-number">2</span>
         <img src="https://upload.wikimedia.org/wikipedia/pt/e/e7/Red_Dead_Redemption_2.png" class="poster-img" alt="Filme 2">
         <div class="badge-new">Novidade</div>
       </div>
-
       <div class="card-container" onclick="updateBanner('A Cela dos Milagres', 'https://image.tmdb.org/t/p/original/4uY5zXfXN7f0j7x9p2n9XfX8X8x.jpg','Mistério e drama se unem nesta obra.')">
         <span class="rank-number">3</span>
         <img src="https://image.tmdb.org/t/p/w500/brOatYQ0C24Bf9f8O9O8O8O8O8O.jpg" class="poster-img" alt="Filme 3">
         <div class="badge-new">Novidade</div>
       </div>
-
     </div>
     <button class="arrow-right" onclick="scrollRight()">›</button>
   </div>
@@ -370,6 +350,3 @@ window.addEventListener('scroll', ()=>{
 
 </body>
 </html>
-
-
-
