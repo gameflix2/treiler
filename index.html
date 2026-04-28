@@ -429,16 +429,82 @@
   .modal-overlay.open { display:flex; }
   .modal {
     background:#22241f; border-radius:24px 24px 0 0;
-    padding:24px 20px 40px; width:100%; max-width:520px;
+    padding:0 0 40px; width:100%; max-width:520px;
     max-height:90svh; overflow-y:auto;
     transform:translateY(100%); transition:transform 0.35s cubic-bezier(0.34,1.2,0.64,1);
     border-top:1px solid var(--chalk-line);
   }
   .modal-overlay.open .modal { transform:translateY(0); }
-  .modal-handle { width:40px; height:4px; background:rgba(255,255,255,0.15); border-radius:2px; margin:0 auto 20px; }
+  .modal-handle { width:40px; height:4px; background:rgba(255,255,255,0.15); border-radius:2px; margin:0 auto 0; padding-top:12px; }
   .modal-title { font-family:'Playfair Display',serif; font-size:22px; color:var(--cream); margin-bottom:6px; }
   .modal-desc { font-size:13px; color:rgba(245,236,215,0.5); margin-bottom:20px; }
   .modal-price { font-size:20px; font-weight:700; color:var(--red); font-family:'Playfair Display',serif; margin-bottom:20px; }
+
+  /* CARROSSEL DO MODAL */
+  .modal-carousel {
+    position:relative; width:100%; height:220px;
+    overflow:hidden; background:#111; margin-bottom:0;
+    border-radius:0;
+  }
+  .carousel-track {
+    display:flex; height:100%;
+    transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+  .carousel-slide {
+    min-width:100%; height:100%;
+    display:flex; align-items:center; justify-content:center;
+    position:relative; overflow:hidden; flex-shrink:0;
+  }
+  .carousel-slide img {
+    width:100%; height:100%; object-fit:cover;
+  }
+  .carousel-slide video {
+    width:100%; height:100%; object-fit:cover;
+  }
+  .carousel-slide .play-overlay {
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(0,0,0,0.3); transition:opacity 0.2s;
+    pointer-events:none;
+  }
+  .play-overlay .play-icon {
+    width:54px; height:54px; border-radius:50%;
+    background:rgba(212,43,43,0.85); backdrop-filter:blur(4px);
+    display:flex; align-items:center; justify-content:center;
+    border:2px solid rgba(255,255,255,0.4);
+  }
+  .play-overlay .play-icon svg { margin-left:3px; }
+  .carousel-slide.playing .play-overlay { opacity:0; }
+  .carousel-slide.video-slide { cursor:pointer; }
+  .carousel-btn {
+    position:absolute; top:50%; transform:translateY(-50%);
+    width:36px; height:36px; border-radius:50%;
+    background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.2);
+    color:#fff; font-size:18px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    z-index:10; backdrop-filter:blur(4px); transition:all 0.2s;
+    line-height:1;
+  }
+  .carousel-btn:hover { background:rgba(212,43,43,0.7); border-color:var(--red); }
+  .carousel-btn.prev { left:10px; }
+  .carousel-btn.next { right:10px; }
+  .carousel-dots {
+    position:absolute; bottom:10px; left:50%; transform:translateX(-50%);
+    display:flex; gap:6px; z-index:10;
+  }
+  .carousel-dot {
+    width:7px; height:7px; border-radius:50%;
+    background:rgba(255,255,255,0.4); transition:all 0.2s;
+    cursor:pointer;
+  }
+  .carousel-dot.active { background:#fff; width:18px; border-radius:4px; }
+  .carousel-media-label {
+    position:absolute; top:10px; left:10px; z-index:10;
+    background:rgba(0,0,0,0.55); backdrop-filter:blur(4px);
+    color:#fff; font-size:10px; letter-spacing:1.5px; text-transform:uppercase;
+    padding:4px 10px; border-radius:20px; font-family:'Outfit',sans-serif;
+  }
+  .modal-body-content { padding:20px 20px 0; }
 
   @keyframes fadeUp {
     from { opacity:0; transform:translateY(20px); }
@@ -623,7 +689,7 @@
       <button class="size-btn active" onclick="setPizzaSize('G',this)">Grande (G)</button>
       <button class="size-btn" onclick="setPizzaSize('M',this)">Média (M)</button>
     </div>
-    <div class="menu-card">
+    <div class="menu-card" onclick="openModal('pizza-picanha')">
       <div class="item-img"><span class="item-img-placeholder">🥩</span></div>
       <div class="item-info">
         <div class="tag">SALGADA</div>
@@ -633,7 +699,7 @@
       </div>
       <button class="item-add" onclick="addItem(event,'Picanha c/ Cebola Caramelizada','R$ 54,90',54.90)">+</button>
     </div>
-    <div class="menu-card">
+    <div class="menu-card" onclick="openModal('pizza-gorgonzola')">
       <div class="item-img"><span class="item-img-placeholder">🧀</span></div>
       <div class="item-info">
         <div class="tag">SALGADA</div>
@@ -643,7 +709,7 @@
       </div>
       <button class="item-add" onclick="addItem(event,'Filé ao Molho Gorgonzola','R$ 54,90',54.90)">+</button>
     </div>
-    <div class="menu-card">
+    <div class="menu-card" onclick="openModal('pizza-bacon')">
       <div class="item-img"><span class="item-img-placeholder">🥓</span></div>
       <div class="item-info">
         <div class="tag">SALGADA</div>
@@ -653,7 +719,7 @@
       </div>
       <button class="item-add" onclick="addItem(event,'Picanha com Bacon','R$ 54,90',54.90)">+</button>
     </div>
-    <div class="menu-card">
+    <div class="menu-card" onclick="openModal('pizza-coracao')">
       <div class="item-img"><span class="item-img-placeholder">❤️</span></div>
       <div class="item-info">
         <div class="tag">SALGADA</div>
@@ -663,7 +729,7 @@
       </div>
       <button class="item-add" onclick="addItem(event,'Pizza Coração','R$ 54,90',54.90)">+</button>
     </div>
-    <div class="menu-card">
+    <div class="menu-card" onclick="openModal('pizza-portuguesa')">
       <div class="item-img"><span class="item-img-placeholder">🇵🇹</span></div>
       <div class="item-info">
         <div class="tag">SALGADA</div>
@@ -673,7 +739,7 @@
       </div>
       <button class="item-add" onclick="addItem(event,'Portuguesa','R$ 54,90',54.90)">+</button>
     </div>
-    <div class="menu-card">
+    <div class="menu-card" onclick="openModal('pizza-xixo')">
       <div class="item-img"><span class="item-img-placeholder">🌾</span></div>
       <div class="item-info">
         <div class="tag">SALGADA</div>
@@ -900,7 +966,6 @@
 <!-- MODAL -->
 <div class="modal-overlay" id="modal" onclick="closeModal(event)">
   <div class="modal" id="modal-content">
-    <div class="modal-handle"></div>
     <div id="modal-body"></div>
   </div>
 </div>
@@ -912,50 +977,214 @@ const WHATSAPP_NUMBER = '5553981045078'; // trocar pelo número real
 
 const modals = {
   'combo-casal': {
-    emoji:'💏', name:'Combo Casal', price:'R$ 72,90', val:72.90,
+    emoji:'💏', name:'Combo Casal', price:'R$ 72,90', val:72.90, tag:'COMBO IMBATÍVEL',
     desc:'1 Pizza Grande Artesanal de sua escolha + 1 Pizza Doce Pequena. Ideal para casais que querem uma noite especial.',
-    note:'Informe os sabores nas observações ao finalizar o pedido.'
+    note:'Informe os sabores nas observações ao finalizar o pedido.',
+    media:{ video:null, photos:[] }
   },
   'combo-casal-vinho': {
-    emoji:'🍷', name:'Combo Casal + Vinho', price:'R$ 98,90', val:98.90,
+    emoji:'🍷', name:'Combo Casal + Vinho', price:'R$ 98,90', val:98.90, tag:'MAIS ROMÂNTICO',
     desc:'1 Pizza Grande + 1 Pizza Doce Pequena + 1 Vinho 750ml (Tinto Suave ou Seco). A noite perfeita!',
-    note:'Informe os sabores e a preferência do vinho nas observações.'
+    note:'Informe os sabores e a preferência do vinho nas observações.',
+    media:{ video:null, photos:[] }
   },
   'combo-duplo': {
-    emoji:'🍕🍕', name:'Combo Duplo', price:'R$ 94,90', val:94.90,
+    emoji:'🍕🍕', name:'Combo Duplo', price:'R$ 94,90', val:94.90, tag:'COMBO IMBATÍVEL',
     desc:'2 Pizzas Grandes Artesanais da sua escolha. Perfeito para dividir com quem você ama.',
-    note:'Informe os sabores nas observações ao finalizar o pedido.'
+    note:'Informe os sabores nas observações ao finalizar o pedido.',
+    media:{ video:null, photos:[] }
   },
   'combo-duplo-doce': {
-    emoji:'🍫', name:'Combo Duplo + Doce', price:'R$ 119,90', val:119.90,
+    emoji:'🍫', name:'Combo Duplo + Doce', price:'R$ 119,90', val:119.90, tag:'COMBO ESPECIAL',
     desc:'2 Pizzas Grandes Artesanais + 1 Pizza Doce Pequena para adoçar o final.',
-    note:'Informe os sabores (incluindo o doce) nas observações.'
+    note:'Informe os sabores (incluindo o doce) nas observações.',
+    media:{ video:null, photos:[] }
   },
   'combo-familia': {
-    emoji:'👪', name:'Combo Família', price:'R$ 139,90', val:139.90,
+    emoji:'👪', name:'Combo Família', price:'R$ 139,90', val:139.90, tag:'MELHOR CUSTO-BENEFÍCIO',
     desc:'3 Pizzas Grandes Artesanais para toda a família. O melhor custo-benefício da casa!',
-    note:'Informe os 3 sabores desejados nas observações.'
+    note:'Informe os 3 sabores desejados nas observações.',
+    media:{ video:null, photos:[] }
+  },
+  'pizza-picanha': {
+    emoji:'🥩', name:'Picanha com Cebola Caramelizada', price:'R$ 54,90', val:54.90, tag:'🥇 MAIS PEDIDA',
+    desc:'A queridinha da casa! Picanha suculenta com cebola dourada na manteiga sobre massa artesanal crocante.',
+    note:'Informe o tamanho desejado (Grande ou Média) nas observações.',
+    media:{ video:null, photos:[] }
+  },
+  'pizza-gorgonzola': {
+    emoji:'🧀', name:'Filé ao Molho Gorgonzola', price:'R$ 54,90', val:54.90, tag:'GOURMET',
+    desc:'Filé mignon grelhado com molho especial de gorgonzola. Sofisticação em cada fatia.',
+    note:'Informe o tamanho desejado nas observações.',
+    media:{ video:null, photos:[] }
+  },
+  'pizza-bacon': {
+    emoji:'🥓', name:'Picanha com Bacon', price:'R$ 54,90', val:54.90, tag:'IRRESISTÍVEL',
+    desc:'Combinação irresistível de picanha e bacon crocante. Para quem ama sabores intensos.',
+    note:'Informe o tamanho desejado nas observações.',
+    media:{ video:null, photos:[] }
+  },
+  'pizza-coracao': {
+    emoji:'❤️', name:'Coração', price:'R$ 54,90', val:54.90, tag:'ESPECIAL DA CASA',
+    desc:'Sabor especial criado pelo nosso chef. Uma surpresa deliciosa em cada mordida!',
+    note:'Informe o tamanho desejado nas observações.',
+    media:{ video:null, photos:[] }
+  },
+  'pizza-portuguesa': {
+    emoji:'🇵🇹', name:'Portuguesa', price:'R$ 54,90', val:54.90, tag:'CLÁSSICA',
+    desc:'O clássico que nunca decepciona! Presunto, ovos, cebola, azeitonas e muito queijo.',
+    note:'Informe o tamanho desejado nas observações.',
+    media:{ video:null, photos:[] }
+  },
+  'pizza-xixo': {
+    emoji:'🌾', name:'Xixo', price:'R$ 54,90', val:54.90, tag:'TRADICIONAL',
+    desc:'Sabor tradicional artesanal, feito com ingredientes selecionados da nossa cozinha.',
+    note:'Informe o tamanho desejado nas observações.',
+    media:{ video:null, photos:[] }
   },
 };
 
 function openModal(id) {
   const m = modals[id];
   if (!m) return;
+
+  // Slides: 1 vídeo + 3 fotos (usando placeholders — troque as URLs pelas suas reais)
+  const mediaSlides = m.media || {
+    video: null,   // ex: 'https://seu-cdn.com/video-combo.mp4'
+    photos: []     // ex: ['foto1.jpg', 'foto2.jpg', 'foto3.jpg']
+  };
+
+  // Gera os slides do carrossel
+  let slidesHtml = '';
+  let dotsHtml = '';
+  let slideCount = 0;
+
+  // Slide de vídeo (1º)
+  if (mediaSlides.video) {
+    slidesHtml += `
+      <div class="carousel-slide video-slide" id="cs-${slideCount}" onclick="toggleCarouselVideo(this)">
+        <video id="modal-video" src="${mediaSlides.video}" playsinline loop preload="metadata" style="width:100%;height:100%;object-fit:cover;"></video>
+        <div class="play-overlay"><div class="play-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div></div>
+        <div class="carousel-media-label">▶ Vídeo</div>
+      </div>`;
+  } else {
+    // Slide placeholder de vídeo com emoji
+    slidesHtml += `
+      <div class="carousel-slide video-slide" id="cs-${slideCount}">
+        <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a0a0a,#2d1111);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;">
+          <div style="font-size:56px;">${m.emoji}</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase;">Vídeo em breve</div>
+        </div>
+        <div class="carousel-media-label">▶ Vídeo</div>
+      </div>`;
+  }
+  dotsHtml += `<div class="carousel-dot active" onclick="goToSlide(0)"></div>`;
+  slideCount++;
+
+  // 3 slides de foto
+  const photoEmojis = ['🍕','🔥','⭐'];
+  const photoLabels = ['Foto 1','Foto 2','Foto 3'];
+  for (let i = 0; i < 3; i++) {
+    const photo = mediaSlides.photos && mediaSlides.photos[i];
+    if (photo) {
+      slidesHtml += `
+        <div class="carousel-slide" id="cs-${slideCount}">
+          <img src="${photo}" alt="Foto ${i+1}" loading="lazy">
+          <div class="carousel-media-label">${photoLabels[i]}</div>
+        </div>`;
+    } else {
+      slidesHtml += `
+        <div class="carousel-slide" id="cs-${slideCount}">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#111408,#1e2010);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;">
+            <div style="font-size:56px;">${photoEmojis[i]}</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase;">Foto ${i+1} em breve</div>
+          </div>
+          <div class="carousel-media-label">${photoLabels[i]}</div>
+        </div>`;
+    }
+    dotsHtml += `<div class="carousel-dot" onclick="goToSlide(${slideCount})"></div>`;
+    slideCount++;
+  }
+
   document.getElementById('modal-body').innerHTML = `
-    <div style="font-size:48px;margin-bottom:12px;">${m.emoji}</div>
-    <div class="tag">COMBO IMERDÍVEL</div>
-    <div class="modal-title">${m.name}</div>
-    <div class="modal-price">${m.price}</div>
-    <p style="font-size:14px;color:rgba(245,236,215,0.7);line-height:1.6;margin-bottom:12px;">${m.desc}</p>
-    <p style="font-size:12px;color:var(--gold);margin-bottom:24px;">💡 ${m.note}</p>
-    <button class="btn-primary" style="width:100%;" onclick="addItem(event,'${m.name}','${m.price}',${m.val});closeModal();">Adicionar ao Pedido</button>
+    <div class="modal-handle"><div style="width:40px;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;margin:12px auto 0;"></div></div>
+    <div class="modal-carousel" id="modal-carousel">
+      <div class="carousel-track" id="carousel-track">${slidesHtml}</div>
+      <button class="carousel-btn prev" onclick="carouselPrev()">&#8249;</button>
+      <button class="carousel-btn next" onclick="carouselNext()">&#8250;</button>
+      <div class="carousel-dots" id="carousel-dots">${dotsHtml}</div>
+    </div>
+    <div class="modal-body-content">
+      <div class="tag" style="margin-top:16px;">${m.tag || 'COMBO IMBATÍVEL'}</div>
+      <div class="modal-title">${m.name}</div>
+      <div class="modal-price">${m.price}</div>
+      <p style="font-size:14px;color:rgba(245,236,215,0.7);line-height:1.6;margin-bottom:12px;">${m.desc}</p>
+      <p style="font-size:12px;color:var(--gold);margin-bottom:24px;">💡 ${m.note}</p>
+      <button class="btn-primary" style="width:100%;" onclick="addItem(event,'${m.name}','${m.price}',${m.val});closeModal();">Adicionar ao Pedido</button>
+    </div>
   `;
+
+  carouselIndex = 0;
   document.getElementById('modal').classList.add('open');
 }
+
+let carouselIndex = 0;
+
+function updateCarousel() {
+  const track = document.getElementById('carousel-track');
+  const dots = document.querySelectorAll('.carousel-dot');
+  if (!track) return;
+  track.style.transform = `translateX(-${carouselIndex * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('active', i === carouselIndex));
+  // Pausa vídeo ao sair do slide 0
+  const video = document.getElementById('modal-video');
+  if (video && carouselIndex !== 0) { video.pause(); document.getElementById('cs-0')?.classList.remove('playing'); }
+}
+
+function carouselNext() {
+  const track = document.getElementById('carousel-track');
+  if (!track) return;
+  const total = track.children.length;
+  carouselIndex = (carouselIndex + 1) % total;
+  updateCarousel();
+}
+
+function carouselPrev() {
+  const track = document.getElementById('carousel-track');
+  if (!track) return;
+  const total = track.children.length;
+  carouselIndex = (carouselIndex - 1 + total) % total;
+  updateCarousel();
+}
+
+function goToSlide(idx) {
+  carouselIndex = idx;
+  updateCarousel();
+}
+
+function toggleCarouselVideo(el) {
+  const video = document.getElementById('modal-video');
+  if (!video) return;
+  if (video.paused) { video.play(); el.classList.add('playing'); }
+  else { video.pause(); el.classList.remove('playing'); }
+}
+
+// Suporte a swipe no carrossel
+let touchStartX = 0;
+document.addEventListener('touchstart', e => {
+  if (e.target.closest('.modal-carousel')) touchStartX = e.touches[0].clientX;
+}, { passive: true });
+document.addEventListener('touchend', e => {
+  if (!e.target.closest('.modal-carousel')) return;
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 40) diff > 0 ? carouselNext() : carouselPrev();
+}, { passive: true });
 
 function closeModal(e) {
   if (!e || e.target === document.getElementById('modal')) {
     document.getElementById('modal').classList.remove('open');
+    const video = document.getElementById('modal-video');
+    if (video) { video.pause(); }
   }
 }
 
@@ -1092,4 +1321,4 @@ const todayEl = document.getElementById(today);
 if (todayEl) todayEl.classList.add('today');
 </script>
 </body>
-</html>j7nu
+</html>
